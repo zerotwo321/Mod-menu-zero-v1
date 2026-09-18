@@ -1,27 +1,20 @@
-# ZERO Panel
+# ZERO Mod Panel V2
 
-Simple Vercel API project for an Android client you control.
+Vercel backend sederhana untuk project ZERO.
 
-## Endpoints
+## Endpoint
 
+- `GET /api/validate?key=KEY_KAMU`
+- `GET /api/config`
 - `GET /api/system/settings`
-- `POST /api/validate`
 - `GET /api/download`
 
-## Deploy
+## Setup Vercel
 
-1. Push this folder to a GitHub repository.
-2. Import the repository into Vercel.
-3. Add an Environment Variable named `ACCESS_KEY`.
-4. Deploy.
-5. Put your own `payload.zip` in `public/files/`.
+Buat Environment Variable:
 
-Example validation request:
+`ACCESS_KEY=KEY_RAHASIA_KAMU`
 
-```bash
-curl -X POST https://YOUR-DOMAIN.vercel.app/api/validate \
-  -H "Content-Type: application/json" \
-  -d '{"key":"YOUR_KEY"}'
-```
+Jangan menaruh key rahasia langsung di JavaScript frontend.
 
-The project is intentionally generic: only use files/payloads you own or are authorized to distribute.
+`/api/download` hanya aktif jika file `public/files/payload.zip` benar-benar tersedia.
