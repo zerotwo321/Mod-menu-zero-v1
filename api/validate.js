@@ -1,26 +1,27 @@
 export default function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
 
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      success: false,
-      message: "Method not allowed"
+  const supplied = String(req.query?.key || "").trim();
+  const expected = String(process.env.ACCESS_KEY || "").trim();
+
+  if (!expected) {
+    return res.status(503).json({
+      ok: false,
+      valid: false,
+      error: "server_key_not_configured"
     });
   }
 
-  const { key } = req.body || {};
-  const configuredKey = process.env.ACCESS_KEY;
-
-  if (!configuredKey) {
-    return res.status(500).json({
-      success: false,
-      message: "ACCESS_KEY is not configured"
+  if (!supplied) {
+    return res.status(400).json({
+      ok: false,
+      valid: false,
+      error: "missing_key"
     });
   }
 
   return res.status(200).json({
-    success: true,
-    valid: key === configuredKey,
-    message: key === configuredKey ? "Key valid" : "Invalid key"
+    ok: true,
+    valid: supplied === expected
   });
 }
